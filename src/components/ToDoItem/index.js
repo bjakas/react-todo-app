@@ -19,4 +19,4 @@ export default function ToDoItem({
 // ako postoji neka cjelina koju možemo pojednostaviti to i napravimo
 // trebaju nam propovi i logika toggleLabel
 // handleOnToggle proslijedimo kroz prop koji ćemo nazvati onToggle, isto je i za handleOnDelete
-// umjesto item.text stavimo children 
+// umjesto {item.text} stavimo children 

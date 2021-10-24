@@ -20,7 +20,7 @@ Example todo appliaction developed during frontend developer course in Algebra.
 - [x] Mark an item as completed
 - [ ] Add reminder to item (date and time)
 - [ ] Show motivational quote from https://zenquotes.io/api/random
-- [ ] Delete all items
+- [ ] Delete all items - uz pomoć reducera i reduxa (dodamo dugme onClick posalje akciju u store za brisanje svih itema, stavimo prazni niz), definiramo novu akciju i uredimo naš reducer i to je to
 - [ ] Calendar
 - [ ] Categories
 - [ ] Pop quizzes

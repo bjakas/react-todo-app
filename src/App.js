@@ -12,6 +12,9 @@ function App() {
 
 export default App;
 
+// naša apikacija više ne koristi svoj state da rukuje s itemima nego redux store
+// naš obrazac se bavi samim sobom i dispatcha u store akciju da želimo kreirati novi item, a naša lista se brine sa ispisom tih itema koje smo kreirali
+// imamo 3 componente listu, item i form i imamo reducer koji se brine o staju u aplikaciji i App comp. koja sve to povezuje u jednu cjelinu
 
 
 // OLD CODE

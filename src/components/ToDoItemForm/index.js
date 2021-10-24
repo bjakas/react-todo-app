@@ -14,9 +14,11 @@ export default function ToDoItemForm() {
     }));
   }
 
+  // dispatchamo svaku pojedinu akciju addItem, deleteItem, markItemAsDone
+
   const handleOnSubmit = (event) => {
     event.preventDefault();
-    dispatch(addItem(formState));
+    dispatch(addItem(formState)); // iz reducera importamo akciju koja nam treba; dispatchamo akciju addItem s potrebnim parametrima
     setFormState({ text: "" });
   }
 

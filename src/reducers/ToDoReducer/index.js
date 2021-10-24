@@ -1,8 +1,12 @@
+// 2. korak
+
 const initialState = {
   items: [],
 };
 
-export const selectAllItems = (state) => state.items;
+export const selectAllItems = (state) => state.items; // vidi ToDoItemList
+
+// 3. korak - definiramo konstante
 
 const type = {
   ADD_ITEM: 'ADD_ITEM',
@@ -10,32 +14,48 @@ const type = {
   MARK_ITEM_AS_DONE: 'MARK_ITEM_AS_DONE',
 };
 
+// 4. definiramo f. koje će kreirat akcije, te f. se u praksi zovu ACTION CREATOR F. - f. koje naprave objekt akcije i pripreme ga s relevantnim podatcima
+
+// akcija kreiranja itema: addItem kreiramo objekt s typeom ADD_ITEM i fali nam podatak kakav item kreiramo, tako da proslijedimo objekt itema koji smo nazvali item; (ako imamo var i property s istim imenom možemo pisati samo identifikator parametra funkcije pa možemo pisati item:item ili item u parametru funkcije i dolje samo item) 
+
 export function addItem(item) {
-  return { type: type.ADD_ITEM, item: item };
+  return { type: type.ADD_ITEM, item: item }; // proslijedimo objekt itema
 }
+
+// akcija brisanja itema: deleteItem - možemo proslijediti index i item, ali je dobra praksa proslijediti samo item, a index možemo povući unutar statea; action type je DELETE_ITEM i item:item proslijedimo
 
 export function deleteItem(item) {
   return { type: type.DELETE_ITEM, item: item };
 }
+// akcija je li item završen ili nije: markItemAsDone proslijedimo type MARK_ITEM_AS_DONE i item:item te is Done: isDone
 
 export function markItemAsDone(item, isDone) {
   return { type: type.MARK_ITEM_AS_DONE, item: item, isDone: isDone };
 }
 
+// 1.korak - od tu krećemo 
+// konstante identificiraju tip akcije u reducer i na temelju tog typa kojeg dodijelimo action objektu pa kažemo ako je action tip taj i taj napravi nešto; reducer primijeni akcije da bi promijenio stanje našeg inicijalnog statea u novi state
+// 5. korak - dodijelimo inicijalno stanje kao def. vrijednost za naš state (ako state nije proslijeđen proslijedi (koristi) inicijalni state)
+
 export default function reducer(state = initialState, action) {
+  // na temelju action.typea vrati određeni objekt statea
   switch (action.type) {
+    // prvo prekopiramo i. state i na njegovo mjesto stavimo novi niz itema unutar kojeg se nalazi stari niz i na kraj stavimo item iz akcije(item koji smo proslijedili kroz akciju)
     case type.ADD_ITEM: {
       return {
         ...state,
         items: [
           ...state.items,
-          { ...action.item, isDone: false },
+          { ...action.item, isDone: false }, // po d. početno stanje itema je da je isDone u false
         ],
       };
     }
-    case type.DELETE_ITEM: {
-      const index = state.items.indexOf(action.item);
 
+    // vidi niže opis 
+
+    case type.DELETE_ITEM: {
+      const index = state.items.indexOf(action.item); // definiramo varijablu koja sadrži index itema unutar akcije
+      // ako nema itema u nizu možemo napraviti provjeru ako je index -1, ako nema tog el. u nizu vrati trenutni state bez ikakve promjene
       if (index === -1) {
         return state;
       }
@@ -48,12 +68,18 @@ export default function reducer(state = initialState, action) {
         ],
       };
     }
+
+    // vidi niže opis 
+    // kod switch casea nakon casea nema vitičastih zagrada, ali zbog scopea kada imamo var istog naziva u različitim caseima koristimo vitičaste zagrade pa možemo imati const index jer imamo dva scopea 
+
     case type.MARK_ITEM_AS_DONE: {
       const index = state.items.indexOf(action.item);
 
       if (index === -1) {
         return state;
       }
+
+      // između odsječka dva niza ugnijezimo promijenjeni item, uzmemo trenutni item na tom indexu i njega kopiramo pa preko njega kopiramo action item i onda na kraju zalijepimo stanje isDone na temelju onoga što smo stavili u samoj akciji da to stanje bude
 
       return {
         ...state,
@@ -68,10 +94,13 @@ export default function reducer(state = initialState, action) {
         ],
       };
     }
+    // ako ne prepoznamo akciju vrati inicijalni state
     default:
       return state;
   }
 }
+
+// 6. korak reducer ubacimo u src/index.js i umotamo čitavu aplikaciju u naš redux store tako da je on dostupan svim child elementima, importamo createStore i naš reducer, i kreiramo store; te importamo Provider za context samog reducera kojem smo proslijedili store i koji omotava našu App komponentu da ona i njezini childeovi mogu pristupiti storeu
 
 // reducer je funkcija i redux od njih napravi store; koristimo createStore metodu od redux api i proslijedimo reducer f. unutra i onda taj redux store poziva taj reducer svaki put kad dođe do neke akcije; proslijedimo state i akciju (odnosno taj objekt) i deriviramo novi state na temelju njihove interakcije
 // reducer f sa dva parametra koja vraca uvijek state
